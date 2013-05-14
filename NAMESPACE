@@ -1,0 +1,7 @@
+exportClasses(Player, Gaussian, Factor, PriorFactor, Variable, LikelihoodFactor, TruncateFactor, SumFactor)
+export(Player, Gaussian, Factor, PriorFactor, Variable, LikelihoodFactor, TruncateFactor, SumFactor)
+export(Vwin, Wwin, Vdraw, Wdraw)
+export(SetParameters, AdjustPlayers)
+export(trueskill)
+
+
