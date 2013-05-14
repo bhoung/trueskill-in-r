@@ -2,7 +2,7 @@ trueskill: An implementation of the Trueskill algorithm in R
 ============================================================
 
 Package: trueskill <br>
-Title: Implementation the Bayesian TrueSkill algorithm <br>
+Title: An implementation of the TrueSkill algorithm in R <br>
 
 Description:  
 
@@ -17,6 +17,6 @@ Description:
     URL: https://github.com/bhoung/trueskill
   
 Version: 0.1 <br>
-Author/Maintainer: Brendan Houng <brendan.houng@gmail.com> <br>
+Author: Brendan Houng <brendan.houng@gmail.com> <br>
 License: Apache <br>
 Depends: R (>= 3.0)
