@@ -1,7 +1,6 @@
-exportClasses(Player, Gaussian, Factor, PriorFactor, Variable, LikelihoodFactor, TruncateFactor, SumFactor)
-export(Player, Gaussian, Factor, PriorFactor, Variable, LikelihoodFactor, TruncateFactor, SumFactor)
-export(Vwin, Wwin, Vdraw, Wdraw)
-export(SetParameters, AdjustPlayers)
-export(trueskill)
-
-
+exportClasses(Player, Gaussian)
+export(Player, Gaussian)
+export(Multiply, Divide)
+export(SetParameters, DrawProbability, DrawMargin) 
+export(AdjustPlayers, PrintList)
+export(Trueskill)

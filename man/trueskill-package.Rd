@@ -7,7 +7,7 @@ Implementation the Bayesian TrueSkill algorithm
 }
 \description{
 	
-  An R implementation of the TrueSkill Algorithm (Herbrich, R., Minka, T. and Grapel, T),    
+  An R implementation of the TrueSkill Algorithm (Herbrich, R., Minka, T. and Grapel, T. [1]),    
   a Bayesian skill rating system with inference by approximate message passing on a factor graph.
   Used by Xbox to rank gamers and identify appropriate matches.
   
@@ -19,6 +19,9 @@ Implementation the Bayesian TrueSkill algorithm
   The code for the examples can be found at: 
   
   \code{system.file('', package = 'trueskill')}
+
+  Acknowledgements to Doug Zongker [2] and Heungsub Lee [3] for their python implementations 
+  of the algorithm and for the liberal reuse of Doug's code comments. 
 
 }
 \details{
@@ -76,6 +79,9 @@ Implementation the Bayesian TrueSkill algorithm
 }
 \references{
   [1] TrueSkill: A Bayesian Skill Rating System, Herbrich, R., Minka, T. and Grapel, T.
+  [2] Doug Zongker's python implementation of TrueSkill: https://github.com/dougz/trueskill 
+  [3] Heungsub Lee's python implementation of TrueSkill: https://github.com/sublee/trueskill.
+  [4] Jeff Moser's explanatory notes 
 }
 \keyword{ package }
 \keyword{ trueskill }
@@ -97,23 +103,22 @@ Implementation the Bayesian TrueSkill algorithm
   players <- list(Alice, Bob, Chris, Darren)
   
   players <- AdjustPlayers(players)  
-  print(players)
+  PrintList(players)
   print(Alice$skill)
 
   # Example 2
   # This second example runs Trueskill on a tennis tournament, the Australian Open.
-  
-  data("2012 Aus Open")
-  # Data is in the format Player, Opponent, Margin, Round, WRank, LRank
+  # Data format Player, Opponent, Margin, Round, WRank, LRank
+  data("ausopen2012")
   
   # create match_id in order to reshape
   data$match_id <- row.names(data)
   
+  # reshape wide to long on match_id such that we have
+  # 2 rows per match, 1 with Player1 as Player and 1 with 
+  # Player2 as Opponent and vice versa.
+  
   data <- data[c("Winner", "Loser", "Round", "WRank", "LRank")]
-  
-  # reshape wide to long on match_id such that we have 
-  # 2 rows per match, one with Player1 as Player and Player2 as Opponent and vice versa.
-  
   data <- reshape(data,
     idvar = "match_id",
     varying = list(c(1, 2), c(2, 1), c(4, 5), c(5,4)),
@@ -121,9 +126,8 @@ Implementation the Bayesian TrueSkill algorithm
     new.row.names = 1:1000, 
     timevar = "t",
     direction = "long")
-  
     
-  # As data comes preformatted with winner in Player column,
+  # data comes preformatted with winner in Player column
   # set margin to 1 for win and -1 for loss.
   
   data$margin[data$t == "1"] <- 1
@@ -139,8 +143,8 @@ Implementation the Bayesian TrueSkill algorithm
   # Skill tends to be stable at the higher rankings (descending from 1), so set sigma at mu less mu / 3, 
   # rather than the recommended mu / 3
                                   
-  data[c("mu1","sigma1")] <- c(300 - data$WRank, 300 - data$WRank - ((300 - data$WRank) / 3))
-  data[c("mu2","sigma2")] <- c(300 - data$LRank, 300 - data$LRank - ((300 - data$WRank) / 3)) 
+  data[c("mu1","sigma1")] <- c(300 - data$WRank, round(300 - data$WRank - ((300 - data$WRank) / 3), 1))
+  data[c("mu2","sigma2")] <- c(300 - data$LRank, round(300 - data$LRank - ((300 - data$WRank) / 3), 1)) 
   
   data[!data$Round == "1st Round",][c("mu1","sigma1")] <- c(NA, NA)
   data[!data$Round == "1st Round",][c("mu2","sigma2")] <- c(NA, NA)
@@ -148,21 +152,27 @@ Implementation the Bayesian TrueSkill algorithm
   # Expects columns mu1, sigma1, mu2 and sigma2, will set mu and sigma to 25 and 25 / 3 if NA.
   
   SetParameters()
-
-  data <- trueskill(data)
+  data <- Trueskill(data)
   top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
+  top4 <- top4[order(top4$Player,top4$Round),]
   
-  library(ggplot2)
-  g1 <- ggplot(top4, aes(x = Round, y = mu1, group = Player, colour = Player)) + geom_point(aes(colour=factor(Player))) + geom_line(aes())       
-  g1
+  subset(top4, Player == "Djokovic N.")      
   
-  # Trueskill does not predict match outcomes well, as it appears that player higher skilled players tends to
+  # For a visualisation, load up our favourite package ggplot2...	
+  # library(ggplot2)
+  # g1 <- ggplot(top4, aes(x = Round, y = mu1, group = Player, colour = Player)) + geom_point(aes(colour=factor(Player))) + geom_line(aes())       
+  # g1
+  
+  # Without having adjusted the global parameters, Trueskill does not predict match outcomes well,
+  # as it appears that facing stiffer opposition (higher skilled players) tends to
   # diminish a player's chances of progressing in the subsequent round.
+  
   # This is consistent with commentators describing players with softer draws and playing shorter matches (3 sets as opposed to 5 sets)
   # as being fresher in later rounds.          
   
   # The other feature is that the skill of the better players is weighted towards the losing player even if the
   # better player wins, so we have this effect of the 4 semifinalists having their skills dropping as 
-  # the tournament progresses.
+  # the tournament progresses. This could be symptomatic of high starting values, which is necessary due to some of the 
+  # very low rankings. E.g Lleyton Hewitt with 181.
   
 }

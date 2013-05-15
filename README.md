@@ -12,11 +12,11 @@ Description:
     http://research.microsoft.com/en-us/projects/trueskill/default.aspx 
     
     Current version allows for one player per team. Will update as time permits.  
-    Requires R version 3.0.
+    Requires R version 3.0 as it is written with Reference Classes.
   
     URL: https://github.com/bhoung/trueskill
   
 Version: 0.1 <br>
 Author: Brendan Houng <brendan.houng@gmail.com> <br>
-License: Apache <br>
+License: GPL-3 <br>
 Depends: R (>= 3.0)

@@ -1,10 +1,10 @@
 library(trueskill)
 
 # Example 1.
-Alice  <- Player$new(rank = 1, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "1")
-Bob    <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "2")
-Chris  <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "3")
-Darren <- Player$new(rank = 4, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "4")
+Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
+Bob    <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "2")
+Chris  <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "3")
+Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4")
 
 players <- list(Alice, Bob, Chris, Darren)
 
@@ -23,21 +23,21 @@ print(Alice$skill)
 
 # note that AdjustPlayers sorts players by rank 
 # as shown by inputting a list of different ordering
-Alice  <- Player$new(rank = 1, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "1")
-Bob    <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "2")
-Chris  <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "3")
-Darren <- Player$new(rank = 4, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "4")
+Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
+Bob    <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "2")
+Chris  <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "3")
+Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4")
 
 players <- list(Chris, Alice, Darren, Bob)
 players <- AdjustPlayers(players)  
-print(players)
+PrintList(players)
 print(players[[1]]$skill)
 
 
 # Example 2
+# This second example runs Trueskill on a tennis tournament, the Australian Open.
 # Data format Player, Opponent, Margin, Round, WRank, LRank
-#data <- read.csv("C:/Dropbox/2012 Aus Open.csv")
-data("2012 Aus Open")
+data("ausopen2012")
 
 # create match_id in order to reshape
 data$match_id <- row.names(data)
@@ -71,8 +71,8 @@ data$sigma2 <- NA
 # Skill tends to be stable at the higher rankings (descending from 1), so set sigma at mu less mu / 3, 
 # rather than the recommended mu / 3
                                 
-data[c("mu1","sigma1")] <- c(300 - data$WRank, 300 - data$WRank - ((300 - data$WRank) / 3))
-data[c("mu2","sigma2")] <- c(300 - data$LRank, 300 - data$LRank - ((300 - data$WRank) / 3)) 
+data[c("mu1","sigma1")] <- c(300 - data$WRank, round(300 - data$WRank - ((300 - data$WRank) / 3), 1))
+data[c("mu2","sigma2")] <- c(300 - data$LRank, round(300 - data$LRank - ((300 - data$WRank) / 3), 1)) 
 
 data[!data$Round == "1st Round",][c("mu1","sigma1")] <- c(NA, NA)
 data[!data$Round == "1st Round",][c("mu2","sigma2")] <- c(NA, NA)
@@ -80,14 +80,19 @@ data[!data$Round == "1st Round",][c("mu2","sigma2")] <- c(NA, NA)
 # Expects columns mu1, sigma1, mu2 and sigma2, will set mu and sigma to 25 and 25 / 3 if NA.
 
 SetParameters()
-data <- trueskill(data)
+data <- Trueskill(data)
 top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
+top4 <- top4[order(top4$Player,top4$Round),]
 
-library(ggplot2)
-g1 <- ggplot(top4, aes(x = Round, y = mu1, group = Player, colour = Player)) + geom_point(aes(colour=factor(Player))) + geom_line(aes())       
-g1
+subset(top4, Player == "Djokovic N.")      
 
-# Trueskill does not predict match outcomes well, as it appears that facing stiffer opposition (higher skilled players) tends to
+# For a visualisation, load up our favourite package ggplot2...	
+# library(ggplot2)
+# g1 <- ggplot(top4, aes(x = Round, y = mu1, group = Player, colour = Player)) + geom_point(aes(colour=factor(Player))) + geom_line(aes())       
+# g1
+
+# Without having adjusted the global parameters, Trueskill does not predict match outcomes well,
+# as it appears that facing stiffer opposition (higher skilled players) tends to
 # diminish a player's chances of progressing in the subsequent round.
 
 # This is consistent with commentators describing players with softer draws and playing shorter matches (3 sets as opposed to 5 sets)
