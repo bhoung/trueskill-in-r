@@ -79,8 +79,11 @@ Implementation the Bayesian TrueSkill algorithm
 }
 \references{
   [1] TrueSkill: A Bayesian Skill Rating System, Herbrich, R., Minka, T. and Grapel, T.
-  [2] Doug Zongker's python implementation of TrueSkill: https://github.com/dougz/trueskill 
+  
+  [2] Doug Zongker's python implementation of TrueSkill: https://github.com/dougz/trueskill
+  
   [3] Heungsub Lee's python implementation of TrueSkill: https://github.com/sublee/trueskill.
+  
   [4] Jeff Moser's explanatory notes 
 }
 \keyword{ package }
@@ -98,14 +101,20 @@ Implementation the Bayesian TrueSkill algorithm
   Alice  <- Player$new(rank = 1, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "1")
   Bob    <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "2")
   Chris  <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "3")
-  Darren <- Player$new(rank = 4, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "4")
-  
+  Darren <- Player$new(rank = 4, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "4") 
+   
   players <- list(Alice, Bob, Chris, Darren)
   
   players <- AdjustPlayers(players)  
   PrintList(players)
   print(Alice$skill)
 
+  # Relying on positional arguments looks much cleaner:
+  Alice  <- Player(1, Gaussian(25, 8.3), "Alice")
+  Bob    <- Player(2, Gaussian(25, 8.3), "Bob")
+  Chris  <- Player(2, Gaussian(25, 8.3), "Chris")
+  Darren <- Player(4, Gaussian(25, 8.3), "Darren") 
+  
   # Example 2
   # This second example runs Trueskill on a tennis tournament, the Australian Open.
   # Data format Player, Opponent, Margin, Round, WRank, LRank
