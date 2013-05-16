@@ -21,17 +21,19 @@ print(Alice$skill)
 
 # Example 1B
 
+# Relying on positional arguments looks much cleaner:
 # note that AdjustPlayers sorts players by rank 
 # as shown by inputting a list of different ordering
-Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
-Bob    <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "2")
-Chris  <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "3")
-Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4")
+
+Alice  <- Player(1, Gaussian(25, 8.3), "Alice")
+Bob    <- Player(2, Gaussian(25, 8.3), "Bob")
+Chris  <- Player(2, Gaussian(25, 8.3), "Chris")
+Darren <- Player(4, Gaussian(25, 8.3), "Darren") 
 
 players <- list(Chris, Alice, Darren, Bob)
 players <- AdjustPlayers(players)  
 PrintList(players)
-print(players[[1]]$skill)
+print(Darren$skill)
 
 
 # Example 2
@@ -100,6 +102,6 @@ subset(top4, Player == "Djokovic N.")
 
 # The other feature is that the skill of the better players is weighted towards the losing player even if the
 # better player wins, so we have this effect of the 4 semifinalists having their skills dropping as 
-# the tournament progresses. This could be symptomatic of high starting values, which is necessary due to some of the 
+# the tournament progresses. This could be symptomatic of low starting values, which is necessary due to some of the 
 # very low rankings. E.g Lleyton Hewitt with 181.
 

@@ -181,7 +181,7 @@ Implementation the Bayesian TrueSkill algorithm
   
   # The other feature is that the skill of the better players is weighted towards the losing player even if the
   # better player wins, so we have this effect of the 4 semifinalists having their skills dropping as 
-  # the tournament progresses. This could be symptomatic of high starting values, which is necessary due to some of the 
+  # the tournament progresses. This could be symptomatic of low starting values, which is necessary due to some of the 
   # very low rankings. E.g Lleyton Hewitt with 181.
   
 }
