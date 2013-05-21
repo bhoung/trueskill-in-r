@@ -23,7 +23,7 @@ Refer to \code{\link{trueskill-package}} for links to related classes, functions
   Trueskill(data, parameters)
 }
 \arguments{
-  \item{data}{a data frame with columns: Player, Opponent, margin}
+  \item{data}{a data frame with columns: Player, Opponent, margin. E.g. \code{\link{data}}}
   \item{parameters}{Parameters object to hold input variables: beta, epsilon and gamma.
   See \code{\link{Parameters}} for more details.
   }

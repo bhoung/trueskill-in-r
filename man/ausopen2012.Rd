@@ -5,8 +5,7 @@
 \format{A data frame with 127 rows and 5 variables}
 \description{
   A dataset containing tennis players and match outcomes
-  from the 2012 Australian Open The variables are as
-  follows:
+  from the 2012 Australian Open. Obtained from \url{http://www.tennis-data.co.uk/data.php} (2013).
 }
 \section{trueskill-package:}{
 Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
