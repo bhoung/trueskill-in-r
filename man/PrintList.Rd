@@ -1,6 +1,6 @@
 \name{PrintList}
 \alias{PrintList}
-\title{display list of players nicer}
+\title{pretty print a list of players}
 \usage{
   PrintList(list)
 }
@@ -8,7 +8,7 @@
   \item{list}{a list of player objects}
 }
 \description{
-  display list of players nicer
+  pretty print a list of players (trivial function...)
 }
 \examples{
   Alice <- Player(1, Gaussian(25, 8), "Alice")

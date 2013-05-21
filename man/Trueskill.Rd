@@ -1,14 +1,17 @@
 \name{Trueskill}
 \alias{Trueskill}
-\title{Computer Trueskill over rounds for tournament data in dataframe}
+\title{Apply Trueskill to Tournament Data}
 \usage{
-  Trueskill(data)
+  Trueskill(data, parameters)
 }
 \arguments{
   \item{data}{a data frame with columns: Player, Opponent, margin}
+  \item{parameters}{Parameters object to hold input variables: beta, epsilon and gamma.
+  See \code{\link{Parameters}} for more details.
+  }
 }
 \description{
-  Trueskill function to be applied to tournament data.
+  Trueskill function to be applied to tournament data in dataframe format.
   
   Data is required to be in long format with two rows for
   each match, one with player 1 first and one with player 2
@@ -24,7 +27,10 @@
 }
 \examples{
   # This second example runs Trueskill on a tennis tournament, the Australian Open.
-  # Data format Player, Opponent, Margin, Round, WRank, LRank
+  # Note that actual computation is commented out as it takes about ~40 seconds to 
+  # update skill ratings over 127 matches.
+  
+  # Data format of ausopen2012 is: Player, Opponent, Margin, Round, WRank, LRank
   data("ausopen2012")
   
   # create match_id in order to reshape
@@ -67,19 +73,19 @@
   
   # Expects columns mu1, sigma1, mu2 and sigma2, will set mu and sigma to 25 and 25 / 3 if NA.
   
-  SetParameters()
-  data <- Trueskill(data)
-  top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
-  top4 <- top4[order(top4$Player,top4$Round),]
+  parameters <- Parameters()
+  # data <- Trueskill(data, parameters)
+  # top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
+  # top4 <- top4[order(top4$Player,top4$Round),]
   
-  subset(top4, Player == "Djokovic N.")      
+  # subset(top4, Player == "Djokovic N.")      
   
   # For a visualisation, load up our favourite package ggplot2...	
   # library(ggplot2)
   # g1 <- ggplot(top4, aes(x = Round, y = mu1, group = Player, colour = Player)) + geom_point(aes(colour=factor(Player))) + geom_line(aes())       
   # g1
   
-  # Without having adjusted the global parameters, Trueskill does not predict match outcomes well,
+  # Without having adjusted the input parameters, Trueskill does not predict match outcomes well,
   # as it appears that facing stiffer opposition (higher skilled players) tends to
   # diminish a player's chances of progressing in the subsequent round.
   

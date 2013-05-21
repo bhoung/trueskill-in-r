@@ -212,6 +212,7 @@ PriorFactor <- setRefClass("PriorFactor",
 #' @description Factor classes that implement the 5 update equationsin Herbrich                       
 #' Connects two variables, the value of one being the mean of the message sent to the other.
 #' @param ... Reference Class inheritance
+# default variance is BETA^2
 LikelihoodFactor <- setRefClass("LikelihoodFactor",
   contains = "Factor",
   fields = list(mean = "Variable", value = "Variable", variance = "numeric"),

@@ -1,11 +1,12 @@
 \name{DrawProbability}
 \alias{DrawProbability}
-\title{Compute the draw probability given the draw margin (epsilon)
-Can use draw probability to estimate draw margin
-or vice versa}
+\title{Compute draw probability}
+\description{
+Compute the draw probability given the draw margin (epsilon). Can be passed to DrawMargin to calculate EPSILON.
+ Refer to \code{\link{Parameters}} for default input values.
+}
 \usage{
-  DrawProbability(epsilon = 0.1, beta = 1,
-    total_players = 2)
+  DrawProbability(epsilon = 0.7404666, beta = 25 / 6, total_players = 2)
 }
 \arguments{
   \item{epsilon}{how common draws area}
@@ -14,9 +15,8 @@ or vice versa}
 
   \item{total_players}{number of players}
 }
-\description{
-  Compute the draw probability given the draw margin
-  (epsilon) Can use draw probability to estimate draw
-  margin or vice versa
-}
-
+\examples{
+  # draw_margin = 0.7404666 
+  draw_margin <- DrawMargin(draw_probability = 0.10, beta = 25 / 6, total_players = 2)
+  draw_probability = DrawProbability(epsilon = draw_margin, beta = 25 / 6, total_players = 2)		
+}		

@@ -3,8 +3,8 @@
 #' @description Data is required to be in long format with two rows for each match, one with player 1 first and one with player 2 first
 #' Matches should be sorted such that the second copy of the match appears in the second half of the dataframe
 #' The package currently only supports the trueskill algorithm with one player per team
-Trueskill <- function(data) {                           
-
+Trueskill <- function(data, parameters) {
+	
   ApplyToRow <- function(row) {
     
     if(row$margin == 0) {
@@ -30,7 +30,7 @@ Trueskill <- function(data) {
     Player1 <- Player$new(rank = rank1, skill = Gaussian$new(mu = row$mu1, sigma = row$sigma1), name = "1")
     Player2 <- Player$new(rank = rank2, skill = Gaussian$new(mu = row$mu2, sigma = row$sigma2), name = "2")
     
-    players <- AdjustPlayers(list(Player1, Player2))  
+    players <- AdjustPlayers(list(Player1, Player2), parameters)  
              
     rm(Player1)
     rm(Player2)

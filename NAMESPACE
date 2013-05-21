@@ -1,6 +1,8 @@
-exportClasses(Player, Gaussian)
+exportClass(Gaussian)
 export(Player, Gaussian)
 export(Multiply, Divide)
-export(SetParameters, DrawProbability, DrawMargin) 
+exportMethods("*", "/")
+export(Parameters, DrawProbability, DrawMargin) 
 export(AdjustPlayers, PrintList)
 export(Trueskill)
+

@@ -13,7 +13,11 @@ Player <- setRefClass("Player",
     }, 
     UpdateSkill = function(mu, sigma) {
       .self$skill <- Gaussian$new(mu = mu, sigma = sigma)
-    }
+    },
+    show = function() {
+      print(sprintf("[rank, skill, player]: [%s, [(%s, %s), (%s, %s)], %s]", 
+        rank, round(skill$MuSigma()[1], 3), round(skill$MuSigma()[2], 3), round(skill$pi, 3), round(skill$tau, 3), name))
+    }    
   )
 )
 
@@ -33,7 +37,12 @@ Player <- setRefClass("Player",
 #' single player; there's a one-to-one correspondence between players
 #' and teams.  (It would be straightforward to make multiplayer
 #' teams, but it's not needed for my current purposes.) 
-AdjustPlayers = function(players) {
+AdjustPlayers = function(players, parameters = Parameters()) {
+  
+  # prior factor, gamma
+  # likelihood factor, beta
+  # truncate factor, epsilon
+  
   SortPlayers = function(players) {
     GetRank = function(x) return(x$rank)
     sorted_players <- players[order(unlist(Map(GetRank, players)))] 
@@ -51,14 +60,14 @@ AdjustPlayers = function(players) {
   # Create each layer of factor nodes.  At the top we have priors
   # initialized to the player's current skill estimate.
   
-  GenPriorFactor <- function(skill_var, player) {
-    new_sigma <- sqrt(player$skill$sigma()^ 2 + GAMMA ^ 2)
+  GenPriorFactor <- function(skill_var, player, gamma) {
+    new_sigma <- sqrt(player$skill$sigma()^ 2 + gamma ^ 2)
     param <- Gaussian$new(mu = player$skill$mu(), sigma = new_sigma)
     return(PriorFactor$new(variable = skill_var, param = param, name = paste("PF", player$name, sep = "")))
   }
   
-  GenLikelihoodFactor <- function(skill_var, perf_var, player) {
-    return(LikelihoodFactor$new(skill_var, perf_var, BETA ^ 2, name = paste("LF", player$name, sep = "")))
+  GenLikelihoodFactor <- function(skill_var, perf_var, player, beta) {
+    return(LikelihoodFactor$new(skill_var, perf_var, beta ^ 2, name = paste("LF", player$name, sep = "")))
   }                                                               
   
   GenSumFactor <- function(team_var, perf_var, player) {
@@ -77,12 +86,12 @@ AdjustPlayers = function(players) {
     return(mapply(GenTeamDiff, diff_vars, match_list, SIMPLIFY = F))
   }
 
-  GenTruncateFactor <- function(diff_var, player1, player2) {
+  GenTruncateFactor <- function(diff_var, player1, player2, epsilon) {
     
     if(player1$rank == player2$rank) { V <- Vdraw; W <- Wdraw }
     else { V <- Vwin ; W <- Wwin }
     
-    return(TruncateFactor$new(diff_var, V, W, EPSILON, name = paste("TF", player1$name, player2$name, sep = "_")))	  
+    return(TruncateFactor$new(diff_var, V, W, epsilon, name = paste("TF", player1$name, player2$name, sep = "_")))	  
   }
   
   skill_vars <- mapply(GenSkill, players, "skill")
@@ -90,15 +99,15 @@ AdjustPlayers = function(players) {
   team_vars <- mapply(GenVar, players, "team")         
   diff_vars <- mapply(GenVar, players[-length(players)], "diff")
                                                
-  skill <- mapply(GenPriorFactor, skill_vars, players)
-  skill_to_perf <- mapply(GenLikelihoodFactor, skill_vars, perf_vars, players)
+  skill <- mapply(GenPriorFactor, skill_vars, players, parameters$gamma)
+  skill_to_perf <- mapply(GenLikelihoodFactor, skill_vars, perf_vars, players, parameters$beta)
   perf_to_team <- mapply(GenSumFactor, team_vars, perf_vars, players)
   team_diff <- GenTeamDiffList(diff_vars, team_vars)
 
   # At the bottom we connect adjacent teams with a 'win' or 'draw'
   # factor, as determined by the rank values.
   
-  trunc <- mapply(GenTruncateFactor, diff_vars, players[-length(players)], players[-1])
+  trunc <- mapply(GenTruncateFactor, diff_vars, players[-length(players)], players[-1], parameters$epsilon)
   
   # Start evaluating the graph by pushing messages 'down' from the
   # priors.
@@ -146,3 +155,4 @@ PrintList = function(list) {
     print(list[[i]])
   }
 }
+

@@ -1,4 +1,9 @@
-library(trueskill)
+# library(trueskill)
+
+source("C:/Dropbox/trueskill-in-r/R/competition.r")
+source("C:/Dropbox/trueskill-in-r/R/factorgraph.r")
+source("C:/Dropbox/trueskill-in-r/R/player.r")
+source("C:/Dropbox/trueskill-in-r/R/init.r")
 
 # Example 1.
 Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
@@ -9,12 +14,13 @@ Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4"
 players <- list(Alice, Bob, Chris, Darren)
 
 # set default values for BETA, EPSILON and GAMMA where BETA is sigma / 2
-# EPSILON is DrawProbability(0.1)
+# EPSILON is DrawMargin(0.1)
 # GAMMA is sigma / 100
 
-SetParameters()
+parameters <- Parameters()
+print(parameters)            
+players <- AdjustPlayers(players, parameters)
 
-players <- AdjustPlayers(players)  
 print(players)
 print(players[[1]]$skill)
 print(Alice$skill)
@@ -36,9 +42,10 @@ PrintList(players)
 print(Darren$skill)
 
 
-# Example 2
-# This second example runs Trueskill on a tennis tournament, the Australian Open.
-# Data format Player, Opponent, Margin, Round, WRank, LRank
+# Example 2 applies the Trueskill algorithm to a tennis tournament, the Australian Open. 
+# As it is applied to 127 matches, it takes ~40 seconds to run.
+
+# Data format of ausopen2012 is: Player, Opponent, Margin, Round, WRank, LRank
 data("ausopen2012")
 
 # create match_id in order to reshape
@@ -81,12 +88,14 @@ data[!data$Round == "1st Round",][c("mu2","sigma2")] <- c(NA, NA)
 
 # Expects columns mu1, sigma1, mu2 and sigma2, will set mu and sigma to 25 and 25 / 3 if NA.
 
-SetParameters()
-data <- Trueskill(data)
-top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
-top4 <- top4[order(top4$Player,top4$Round),]
+parameters <- Parameters()
+print(parameters)
 
-subset(top4, Player == "Djokovic N.")      
+# data <- Trueskill(data, parameters)
+# top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
+# top4 <- top4[order(top4$Player,top4$Round),]
+
+# subset(top4, Player == "Djokovic N.")      
 
 # For a visualisation, load up our favourite package ggplot2...	
 # library(ggplot2)
@@ -102,6 +111,6 @@ subset(top4, Player == "Djokovic N.")
 
 # The other feature is that the skill of the better players is weighted towards the losing player even if the
 # better player wins, so we have this effect of the 4 semifinalists having their skills dropping as 
-# the tournament progresses. This could be symptomatic of low starting values, which is necessary due to some of the 
+# the tournament progresses. This could be symptomatic of high starting values, which is necessary due to some of the 
 # very low rankings. E.g Lleyton Hewitt with 181.
 

@@ -16,6 +16,8 @@ Maintainer: Brendan Houng <brendan.houng@gmail.com>
 License: GPL-3
 Depends:
     R (>= 3.0)
+Imports:
+    methods
 Collate:
     'factorgraph.r'
     'init.r'
