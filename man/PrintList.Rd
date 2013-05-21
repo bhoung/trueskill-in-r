@@ -1,14 +1,17 @@
 \name{PrintList}
 \alias{PrintList}
 \title{pretty print a list of players}
+\description{
+  pretty print a list of players (trivial function...)
+}
+\section{trueskill-package:}{
+  Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
+}
 \usage{
   PrintList(list)
 }
 \arguments{
   \item{list}{a list of player objects}
-}
-\description{
-  pretty print a list of players (trivial function...)
 }
 \examples{
   Alice <- Player(1, Gaussian(25, 8), "Alice")

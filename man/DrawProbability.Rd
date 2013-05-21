@@ -5,6 +5,9 @@
 Compute the draw probability given the draw margin (epsilon). Can be passed to DrawMargin to calculate EPSILON.
  Refer to \code{\link{Parameters}} for default input values.
 }
+\section{trueskill-package:}{
+Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
+}
 \usage{
   DrawProbability(epsilon = 0.7404666, beta = 25 / 6, total_players = 2)
 }

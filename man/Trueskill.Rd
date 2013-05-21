@@ -1,15 +1,6 @@
 \name{Trueskill}
 \alias{Trueskill}
 \title{Apply Trueskill to Tournament Data}
-\usage{
-  Trueskill(data, parameters)
-}
-\arguments{
-  \item{data}{a data frame with columns: Player, Opponent, margin}
-  \item{parameters}{Parameters object to hold input variables: beta, epsilon and gamma.
-  See \code{\link{Parameters}} for more details.
-  }
-}
 \description{
   Trueskill function to be applied to tournament data in dataframe format.
   
@@ -24,6 +15,18 @@
   Should this not match the data you are interested, a function could be written from
   AdjustPlayers, Player and Gaussian, and SetParameters.
   
+}
+\section{trueskill-package:}{
+Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
+}
+\usage{
+  Trueskill(data, parameters)
+}
+\arguments{
+  \item{data}{a data frame with columns: Player, Opponent, margin}
+  \item{parameters}{Parameters object to hold input variables: beta, epsilon and gamma.
+  See \code{\link{Parameters}} for more details.
+  }
 }
 \examples{
   # This second example runs Trueskill on a tennis tournament, the Australian Open.

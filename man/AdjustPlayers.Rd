@@ -5,7 +5,9 @@
   Runs the trueskill algorithm and updates the skills of a list of players.
   Assumes each team has one player.
 }
-		
+\section{trueskill-package:}{
+Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
+}
 \section{Usage:}{ 
 \describe{
   

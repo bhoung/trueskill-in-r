@@ -22,11 +22,14 @@ INITIAL_GAMMA = INITIAL_SIGMA / 100.0
 DRAW_PROBABILITY = 0.10 
 %
 INITIAL_EPSILON = DrawMargin(DRAW_PROBABILITY, BETA) 
-}  
-\section{Usage:}{
-\describe{		
-    Parameters(beta, epsilon, gamma)
 }
+\section{trueskill-package:}{
+Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
+}
+\section{Usage:}{
+  \describe{		
+    Parameters(beta, epsilon, gamma)
+  }
 }
 
 \section{Arguments:}{

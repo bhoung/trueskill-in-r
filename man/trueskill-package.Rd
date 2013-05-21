@@ -34,8 +34,20 @@
 }
 
 \section{Main Functions and Classes}{
-  Reference Classes: \code{\link{Gaussian}}, \code{\link{Player}}, \code{\link{Parameters}}, 
-  Functions: \code{\link{AdjustPlayers}}, \code{\link{Trueskill}}
+\describe{
+  \item{Reference Classes:}{ \code{\link{Gaussian}}, 
+                             \code{\link{Player}}, 
+                             \code{\link{Parameters}}}
+  \item{Methods:}{\code{\link{Multiply}}, 
+                  \code{\link{Divide}}} 
+  \item{Functions:}{\code{\link{AdjustPlayers}}, 
+                    \code{\link{Trueskill}},
+                    \code{\link{DrawMargin}},
+                    \code{\link{DrawProbability}},
+                    \code{\link{PrintList}}
+  }
+  \item{Data:}{\code{\link{data}}}
+}
 }
 \author{
   Brendan Houng <brendan.houng@gmail.com> \cr

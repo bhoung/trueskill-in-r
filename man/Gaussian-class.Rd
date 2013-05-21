@@ -12,11 +12,9 @@ Note: for consistency reasons and not having to update two sets of values, the c
 Therefore, g1$mu <- 25 and g1$sigma <- 8 does not work as expected, though g1$pi <- 0.04 and g1$tau <- 0.13 does.
 }
 \section{Usage:}{
-\describe{
   Gaussian(mu, sigma)
   
   Gaussian(pi, tau)
-}
 }
 
 \section{Arguments:}{ 

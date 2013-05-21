@@ -8,6 +8,9 @@
   from the 2012 Australian Open The variables are as
   follows:
 }
+\section{trueskill-package:}{
+Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
+}
 \details{
   \itemize{ 
     \item Winner Player that won the game 
