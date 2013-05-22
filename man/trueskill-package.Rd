@@ -92,7 +92,8 @@
   Chris  <- Player(2, Gaussian(25, 8.3), "Chris")
   Darren <- Player(4, Gaussian(25, 8.3), "Darren") 
  
-  # Example 2 - see the Trueskill function, 
+  # Example 2 - see https://gist.github.com/bhoung/5596282  
   # the example applies trueskill to tennis tournament data
+  # (runtime is approx 50 secs)
   
 }

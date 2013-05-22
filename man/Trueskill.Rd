@@ -17,13 +17,12 @@
     AdjustPlayers, Player and Gaussian, and SetParameters.
     
     An example is provided at \url{https://gist.github.com/bhoung/5596282}
+    (runtime is approx 50 secs).
 }
 \usage{
   Trueskill(data, parameters)
 }  
 \arguments{
-  \describe{
-  \item{data}{a data frame (\code{\link{data}}}) with columns: Player, Opponent, margin. 
+  \item{data}{a data frame (\code{\link{data}}) with columns: Player, Opponent, margin.} 
   \item{parameters}{\code{\link{Parameters}}  object to hold input variables.}
-  }
 }
