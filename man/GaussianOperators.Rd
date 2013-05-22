@@ -1,5 +1,5 @@
 \name{GaussianOperators}
-\title{Gaussians Operators}
+\title{GaussianOperators}
 \alias{Multiply}
 \alias{Divide}
 \description{
@@ -14,9 +14,6 @@
   
   z2 <- x / y
 
-}
-\section{trueskill-package:}{
-Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
 }
 \usage{
   Multiply(x, y)

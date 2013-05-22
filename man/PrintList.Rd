@@ -4,9 +4,6 @@
 \description{
   pretty print a list of players (trivial function...)
 }
-\section{trueskill-package:}{
-  Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
-}
 \usage{
   PrintList(list)
 }

@@ -29,56 +29,59 @@
     Version: \tab 0.1\cr
     License: \tab Apache\cr
     Depends: \tab R (>= 3.0)\cr
-    Built: \tab R 3.0.0; ; 2013-05-14 02:24:46 UTC; windows\cr
+    Built: \tab R 3.0.1 \cr
   }
 }
-
 \section{Main Functions and Classes}{
-\describe{
-  \item{Reference Classes:}{ \code{\link{Gaussian}}, 
-                             \code{\link{Player}}, 
-                             \code{\link{Parameters}}}
-  \item{Methods:}{\code{\link{Multiply}}, 
-                  \code{\link{Divide}}} 
-  \item{Functions:}{\code{\link{AdjustPlayers}}, 
-                    \code{\link{Trueskill}},
-                    \code{\link{DrawMargin}},
-                    \code{\link{DrawProbability}},
-                    \code{\link{PrintList}}
+  \describe{
+    \item{Reference Classes:}{ \code{\link{Gaussian}}, 
+                               \code{\link{Player}}, 
+                               \code{\link{Parameters}}}
+    \item{Methods:}{\code{\link{Multiply}}, 
+                    \code{\link{Divide}}} 
+    \item{Functions:}{\code{\link{AdjustPlayers}}, 
+                      \code{\link{Trueskill}},
+                      \code{\link{DrawMargin}},
+                      \code{\link{DrawProbability}},
+                      \code{\link{PrintList}}
+    }
+    \item{Data:}{\code{\link{data}}}
   }
-  \item{Data:}{\code{\link{data}}}
-}
 }
 \author{
   Brendan Houng <brendan.houng@gmail.com> \cr
 }
 \references{
-  [1] TrueSkill: A Bayesian Skill Rating System, Herbrich, R., Minka, T. and Grapel, T.
-  
-  [2] Doug Zongker's python implementation of TrueSkill: \url{https://github.com/dougz/trueskill}
-  
-  [3] Heungsub Lee's python implementation of TrueSkill: \url{https://github.com/sublee/trueskill}.
-  
-  [4] Jeff Moser's explanatory notes: \url{http://www.moserware.com/2010/03/computing-your-skill.html} 
+  \describe{		
+    \item{[1]}{TrueSkill: A Bayesian Skill Rating System, Herbrich, R., Minka, T. and Grapel, T.}
+    
+    \item{[2]}{Doug Zongker's python implementation: \cr
+    \url{https://github.com/dougz/trueskill}}
+    
+    \item{[3]}{ Heungsub Lee's python implementation: \cr
+    \url{https://github.com/sublee/trueskill}.}
+    
+    \item{[4]}{ Jeff Moser's explanatory notes: \cr
+    \url{http://www.moserware.com/2010/03/computing-your-skill.html}}
+  }
 }
 \keyword{ package }
 \keyword{ trueskill }
 \examples{
-	
   # Example 1.
   
   # set default values for BETA, EPSILON and GAMMA where BETA is sigma / 2
   # EPSILON is DrawProbability(0.1)
   # GAMMA is sigma / 100
+  parameters <- Parameters$new()
   
-  Alice  <- Player$new(rank = 1, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "1")
-  Bob    <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "2")
-  Chris  <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "3")
-  Darren <- Player$new(rank = 4, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "4") 
+  Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
+  Bob    <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "2")
+  Chris  <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "3")
+  Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4") 
    
   players <- list(Alice, Bob, Chris, Darren)
   
-  parameters <- Parameters$new()
   players <- AdjustPlayers(players, parameters)  
   PrintList(players)
   print(Alice$skill)
@@ -89,6 +92,7 @@
   Chris  <- Player(2, Gaussian(25, 8.3), "Chris")
   Darren <- Player(4, Gaussian(25, 8.3), "Darren") 
  
-  # Example 2 - see Trueskill function, which applies trueskill to tennis tournament data
+  # Example 2 - see the Trueskill function, 
+  # the example applies trueskill to tennis tournament data
   
 }

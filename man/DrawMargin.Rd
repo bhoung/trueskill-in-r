@@ -8,9 +8,6 @@
   
   Takes draw probability as input. Refer to \code{\link{Parameters}} for default input values.
 }
-\section{trueskill-package:}{
-Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
-}
 \usage{
   DrawMargin(draw_probability = 0.10, beta = 25 / 6, total_players = 2)
 }

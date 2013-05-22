@@ -5,9 +5,6 @@
   Runs the trueskill algorithm and updates the skills of a list of players.
   Assumes each team has one player.
 }
-\section{trueskill-package:}{
-Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
-}
 \section{Usage:}{ 
 \describe{
   
@@ -32,15 +29,16 @@ Refer to \code{\link{trueskill-package}} for links to related classes, functions
   in the graph.  "Teams" are each a single player; there's
   a one-to-one correspondence between players and teams.}
   
-  \item{parameters}{Parameters object to hold input variables: beta, epsilon and gamma.
+  \item{parameters}{Parameters object to hold input variables: \cr
+  beta, epsilon and gamma.
   See Parameters for more details.}
 }
 }
 \examples{
-  Alice  <- Player$new(rank = 1, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "1")
-  Bob    <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "2")
-  Chris  <- Player$new(rank = 2, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "3")
-  Darren <- Player$new(rank = 4, skill = Gaussian$new(mu = 25, sigma = 25 / 3), name = "4") 
+  Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
+  Bob    <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "2")
+  Chris  <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "3")
+  Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4") 
    
   players <- list(Alice, Bob, Chris, Darren)
   

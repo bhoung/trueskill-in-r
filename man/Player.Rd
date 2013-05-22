@@ -4,9 +4,6 @@
 \description{
   Reference class to create objects that represent players.
 }
-\section{trueskill-package:}{
-Refer to \code{\link{trueskill-package}} for links to related classes, functions and data.
-}
 \section{Usage:}{
   \describe{		
     Player(rank, skill, name)
