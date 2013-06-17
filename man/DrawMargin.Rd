@@ -9,16 +9,16 @@
   Takes draw probability as input. Refer to \code{\link{Parameters}} for default input values.
 }
 \usage{
-  DrawMargin(draw_probability = 0.10, beta = 25 / 6, total_players = 2)
+  DrawMargin(draw_probability = 0.10, beta = 25 / 6, num_teams = 2)
 }
 \arguments{
   \item{draw_probability}{draw probability}
 
   \item{beta}{randomness in game}
 
-  \item{total_players}{number of players}
+  \item{num_teams}{number of teams}
 }  
 \examples{
-  draw_margin <-DrawMargin(draw_probability = 0.10, beta = 25 / 6, total_players = 2)
+  draw_margin <-DrawMargin(draw_probability = 0.10, beta = 25 / 6, num_teams = 2)
   parameters <- Parameters(beta = 25 / 6, epsilon = draw_margin, gamma = 25 / 300)
 }

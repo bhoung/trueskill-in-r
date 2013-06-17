@@ -1,0 +1,14 @@
+trueskill 0.2
+=============
+* Update to support multiple players per team  
+  - introduced a team class with list of players and rank
+  - removed rank from Player object, moved to Team object
+  - AdjustPlayer has been replaced by Trueskill, and Trueskill has been replaced with CompTrueskill
+   
+* Added test cases also with RUnit
+
+trueskill 0.1
+=============
+* trueskill algorithm to support 1 player per team 
+  AdjustPlayers for once-off and Trueskill for applying trueskill to tournament data (dataframe) 
+

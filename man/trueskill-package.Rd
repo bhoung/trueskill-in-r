@@ -19,7 +19,7 @@
   \code{system.file('', package = 'trueskill')}
 
   Acknowledgements to Doug Zongker [2] and Heungsub Lee [3] for their python implementations 
-  of the algorithm and for the liberal reuse of Doug's code comments. 
+  of the algorithm and for the liberal reuse of Doug's code comments.                
 
 }
 \details{
@@ -39,7 +39,7 @@
                                \code{\link{Parameters}}}
     \item{Methods:}{\code{\link{Multiply}}, 
                     \code{\link{Divide}}} 
-    \item{Functions:}{\code{\link{AdjustPlayers}}, 
+    \item{Functions:}{\code{\link{CompTrueskill}}, 
                       \code{\link{Trueskill}},
                       \code{\link{DrawMargin}},
                       \code{\link{DrawProbability}},
@@ -73,25 +73,27 @@
   # set default values for BETA, EPSILON and GAMMA where BETA is sigma / 2
   # EPSILON is DrawProbability(0.1)
   # GAMMA is sigma / 100
-  parameters <- Parameters$new()
+  epsilon <- DrawMargin(draw_probability = 0.1, beta = 25 / 6, num_teams = 4)
+  parameters <- Parameters(beta = 25/6, epsilon, 25 / 300)
   
-  Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
-  Bob    <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "2")
-  Chris  <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "3")
-  Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4") 
+  Alice  <- Player(name = "1", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Bob    <- Player(name = "2", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Chris  <- Player(name = "3", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Darren <- Player(name = "4", skill = Gaussian(mu = 25, sigma = 25 / 3)) 
    
-  players <- list(Alice, Bob, Chris, Darren)
-  
-  players <- AdjustPlayers(players, parameters)  
-  PrintList(players)
-  print(Alice$skill)
+  Team1 <- Team(name = "Team Alice", rank = 1, players = list(Alice))
+  Team2 <- Team(name = "Team Bob", rank = 2, players = list(Bob))
+  Team3 <- Team(name = "Team Chris", rank = 2, players = list(Chris))
+  Team4 <- Team(name = "Team Darren", rank = 4, players = list(Darren))
 
-  # Relying on positional arguments looks much cleaner:
-  Alice  <- Player(1, Gaussian(25, 8.3), "Alice")
-  Bob    <- Player(2, Gaussian(25, 8.3), "Bob")
-  Chris  <- Player(2, Gaussian(25, 8.3), "Chris")
-  Darren <- Player(4, Gaussian(25, 8.3), "Darren") 
- 
+  teams <- list(Team1, Team2, Team3, Team4)
+  teams <- Trueskill(teams, parameters) 
+  PrintList(teams)
+  
+  players <- GetPlayers(teams)
+  Alice <- players[[1]]
+  print(Alice$skill) 
+
   # Example 2 - see https://gist.github.com/bhoung/5596282  
   # the example applies trueskill to tennis tournament data
   # (runtime is approx 50 secs)

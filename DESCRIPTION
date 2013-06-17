@@ -1,5 +1,5 @@
 Package: trueskill
-Title: Implementation the TrueSkill algorithm in R
+Title: Implementation of the TrueSkill algorithm in R
 Description: 
     An implementation of the TrueSkill algorithm (Herbrich, R., Minka,
     T. and Grapel, T) in R; a Bayesian skill rating system with inference by
@@ -13,7 +13,7 @@ Description:
     Acknowledgements to Doug Zongker and Heungsub Lee for their python 
     implementations  of the algorithm and for the liberal reuse of 
     Doug's code comments (@dougz and @sublee on github). 
-Version: 0.1
+Version: 0.2
 Author: Brendan Houng <brendan.houng@gmail.com>
 Maintainer: Brendan Houng <brendan.houng@gmail.com>
 License: GPL-3
@@ -26,3 +26,4 @@ Collate:
     'init.r'
     'competition.r'
     'player.r'
+    'team.r'

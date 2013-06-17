@@ -1,46 +1,32 @@
-# library(trueskill)
+#dropbox = "C:/Dropbox/"
+dropbox = "/Users/brendanhoung/Dropbox/"
 
-source("C:/Dropbox/trueskill-in-r/R/competition.r")
-source("C:/Dropbox/trueskill-in-r/R/factorgraph.r")
-source("C:/Dropbox/trueskill-in-r/R/player.r")
-source("C:/Dropbox/trueskill-in-r/R/init.r")
+source(paste(dropbox, "trueskill-in-r/R/competition.r", sep = ""))
+source(paste(dropbox, "trueskill-in-r/R/factorgraph.r", sep = ""))
+source(paste(dropbox, "trueskill-in-r/R/player.r", sep = ""))
+source(paste(dropbox, "trueskill-in-r/R/team.r", sep = ""))
+source(paste(dropbox, "trueskill-in-r/R/init.r", sep = ""))
 
 # Example 1.
-Alice  <- Player(rank = 1, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "1")
-Bob    <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "2")
-Chris  <- Player(rank = 2, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "3")
-Darren <- Player(rank = 4, skill = Gaussian(mu = 25, sigma = 25 / 3), name = "4")
 
-players <- list(Alice, Bob, Chris, Darren)
+Alice  <- Player(name = "Alice",  skill = Gaussian(mu = 25, sigma = 25 / 3))
+Bob    <- Player(name = "Bob",    skill = Gaussian(mu = 25, sigma = 25 / 3))
+Chris  <- Player(name = "Chris",  skill = Gaussian(mu = 25, sigma = 25 / 3))
+Darren <- Player(name = "Darren", skill = Gaussian(mu = 25, sigma = 25 / 3))
 
-# set default values for BETA, EPSILON and GAMMA where BETA is sigma / 2
-# EPSILON is DrawMargin(0.1)
-# GAMMA is sigma / 100
+Team1 <- Team(name = "1", rank = 1, list(Alice))
+Team2 <- Team(name = "2", rank = 2, list(Bob, Chris))
+Team3 <- Team(name = "3", rank = 3, list(Darren))
+teams <- list(Team1, Team2, Team3)
 
-parameters <- Parameters()
-print(parameters)            
-players <- AdjustPlayers(players, parameters)
+epsilon <- DrawMargin(draw_probability = 0.1, beta = 25 / 6, num_teams = 3)
+parameters <- Parameters(beta = 25/6, epsilon, 25 / 300)
 
-print(players)
-print(players[[1]]$skill)
-print(Alice$skill)
+teams <- Trueskill(teams, parameters)
 
-# Example 1B
+PrintPlayers(teams)
 
-# Relying on positional arguments looks much cleaner:
-# note that AdjustPlayers sorts players by rank 
-# as shown by inputting a list of different ordering
-
-Alice  <- Player(1, Gaussian(25, 8.3), "Alice")
-Bob    <- Player(2, Gaussian(25, 8.3), "Bob")
-Chris  <- Player(2, Gaussian(25, 8.3), "Chris")
-Darren <- Player(4, Gaussian(25, 8.3), "Darren") 
-
-players <- list(Chris, Alice, Darren, Bob)
-players <- AdjustPlayers(players)  
-PrintList(players)
-print(Darren$skill)
-
+# Example 2.
 
 # Example 2 applies the Trueskill algorithm to a tennis tournament, the Australian Open. 
 # As it is applied to 127 matches, it takes ~40 seconds to run.
@@ -91,7 +77,7 @@ data[!data$Round == "1st Round",][c("mu2","sigma2")] <- c(NA, NA)
 parameters <- Parameters()
 print(parameters)
 
-# data <- Trueskill(data, parameters)
+data <- CompTrueskill(data, parameters)
 # top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
 # top4 <- top4[order(top4$Player,top4$Round),]
 
@@ -113,4 +99,5 @@ print(parameters)
 # better player wins, so we have this effect of the 4 semifinalists having their skills dropping as 
 # the tournament progresses. This could be symptomatic of high starting values, which is necessary due to some of the 
 # very low rankings. E.g Lleyton Hewitt with 181.
+
 

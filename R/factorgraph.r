@@ -49,20 +49,14 @@ Gaussian <- setRefClass('Gaussian',
 #' @param x a Gaussian
 #' @param y a Gaussian
 Multiply <- function(x, y) {
-    z <- Gaussian$new()
-    z$pi  <- x$pi + y$pi
-    z$tau <- x$tau + y$tau
-    z
+  Gaussian(pi = (x$pi + y$pi), tau = (x$tau + y$tau))    
 }
 
 #' divide Gaussians
 #' @param x a Gaussian
 #' @param y a Gaussian
 Divide <- function(x, y) {
-    z <- Gaussian$new()
-    z$pi  <- x$pi - y$pi
-    z$tau <- x$tau - y$tau
-    z
+  Gaussian(pi = (x$pi - y$pi), tau = (x$tau - y$tau)) 
 }
 
 #' multiply Gaussians
@@ -274,19 +268,18 @@ SumFactor <- setRefClass("SumFactor",
     },
     # var is a Variable, y is a list of Values, fy is a list of messages, a is a list of numerics
     InternalUpdate = function(var = Variable$new(), y = list(), fy = list(), a = list()) {
-      fn = function(a, y, fy) return(a^2 / (y$pi - fy$pi))
-      fn2 = function(a, y, fy) return(a * (y$tau - fy$tau) / (y$pi - fy$pi))
+      fn = function(a, y, fy) return((a ^ 2) / (y$pi - fy$pi))
+      fn2 = function(a, y, fy) { return(a * (y$tau - fy$tau) / (y$pi - fy$pi)) }
       
-      new_pi = 1.0 / sum(unlist(mapply(fn, a, y ,fy, SIMPLIFY = F)))
+      new_pi  <- 1.0 / sum(unlist(mapply(fn, a, y ,fy, SIMPLIFY = F)))
       new_tau <- new_pi * sum(unlist(mapply(fn2, a, y, fy, SIMPLIFY = F)))
       
       new_msg <- Gaussian(pi = new_pi, tau = new_tau)
-      #print(new_msg)
       var$UpdateMessage(.self, new_msg)
     },
     UpdateSum = function() {
       "Update the sum value (moving down in the factor graph)."
-      y <- Map(function(x) return(x$value), terms)  	    
+      y  <- Map(function(x) return(x$value), terms)  	    
       fy <- Map(function(x) return(x$GetMessage(.self)), terms)
       a <- coeffs
       InternalUpdate(sum, y, fy, a)
@@ -303,14 +296,18 @@ SumFactor <- setRefClass("SumFactor",
       
       v <- .self$terms
       v[index] <- .self$sum
-      
-      y <- Map(function(x) return(x$value), v)
+
+      y  <- Map(function(x) return(x$value), v)
       fy <- Map(function(x) return(x$GetMessage(.self)), v)
-      
+
       InternalUpdate(terms[[index]], y , fy, a)
     }                                                    
   )
 )
+
+# dnorm is PDF
+# pnorm is CDF
+# qnorm is inverse CDF
 
 #' @title Vwin
 #' @description update rules for approximate marginals for the win and draw cases
@@ -318,9 +315,6 @@ SumFactor <- setRefClass("SumFactor",
 #' @param e argument from TruncateFactor: e <- .self$epsilon * sqrt(div$pi)  
 #' @param t argument from TruncateFactor: t <- div$tau / sqrt(div$pi)
 Vwin <- function(t, e) {
-  # dnorm is PDF
-  # pnorm is CDF
-  # qnorm is inverse CDF
   x <- t - e
   return(dnorm(x) / pnorm(x))
 }
@@ -361,7 +355,7 @@ TruncateFactor <- setRefClass("TruncateFactor",
   contains = "Factor",
   fields = list(variable = "Variable", V = "function", W = "function", epsilon = "numeric"),
   methods = list(
-    initialize = function(variable = Variable$new(), V = Vwin, W = Wwin, epsilon = 0.10, ...) {
+    initialize = function(variable = Variable$new(), V = Vwin, W = Wwin, epsilon = DrawMargin(draw_probability = 0.1, beta = 25 / 6), ...) {
       callSuper(variables = list(variable), ...)
       .self$variable = variable
       .self$V = V
@@ -369,7 +363,7 @@ TruncateFactor <- setRefClass("TruncateFactor",
       .self$epsilon = epsilon
     },
     Update = function() {
-      x = (.self$variable)$value
+      x  = (.self$variable)$value
       fx = (.self$variable)$GetMessage(.self)
                  
       div <- x / fx
@@ -380,7 +374,7 @@ TruncateFactor <- setRefClass("TruncateFactor",
       v <- V(t, e)
       w <- W(t, e)
  
-      new_pi <- (div$pi / (1.0 - w))
+      new_pi  <- (div$pi / (1.0 - w))
       new_tau <- (div$tau + sqrt(div$pi) * v) / (1.0 - w)
       
       new_val <- Gaussian(pi = new_pi, tau = new_tau)

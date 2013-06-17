@@ -1,28 +1,56 @@
 \name{Trueskill}
 \alias{Trueskill}
-\title{Apply Trueskill to Tournament Data}
+\title{Runs the Trueskill algorithm}
 \description{
-    Trueskill function to be applied to tournament data in dataframe format.
+  Runs the trueskill algorithm and updates the skills of players within each team.
+}
+\section{Usage:}{ 
+\describe{
   
-    Data is required to be in long format with two rows for 
-    each match, one with player 1 first and one with player 2 
-    first. 
-    
-    Matches should be sorted such that the second copy
-    of the match appears in the second half of the dataframe. 
-    
-    The package currently only supports the trueskill 
-    algorithm with one player per team. Should this not match  
-    the data you are interested, a function could be written from  
-    AdjustPlayers, Player and Gaussian, and SetParameters.
-    
-    An example is provided at \url{https://gist.github.com/bhoung/5596282}
-    (runtime is approx 50 secs).
+  Trueskill(teams, parameters)
+  
+  Trueskill(list(Team1, Team2), parameters)
 }
-\usage{
-  Trueskill(data, parameters)
-}  
-\arguments{
-  \item{data}{a data frame (\code{\link{data}}) with columns: Player, Opponent, margin.} 
-  \item{parameters}{\code{\link{Parameters}}  object to hold input variables.}
 }
+\section{Arguments:}{
+\describe{
+  \item{teams}{is a list of teams objects, for all the
+  teams that participated in a single game. 
+
+  This function updates all the skills of the
+  player objects to reflect the outcome of the game. 
+  Note the function sorts the teams by rank and returns
+  the sorted list. Creates all the variable nodes
+  in the graph.}
+  
+  \item{parameters}{Parameters object to hold input variables: \cr
+  beta, epsilon and gamma.
+  See Parameters for more details.}
+}
+}
+\examples{
+  # set default values for BETA, EPSILON and GAMMA where BETA is sigma / 2
+  # EPSILON is DrawProbability(0.1)
+  # GAMMA is sigma / 100
+  epsilon <- DrawMargin(draw_probability = 0.1, beta = 25 / 6, num_teams = 4)
+  parameters <- Parameters(beta = 25/6, epsilon, 25 / 300)
+  
+  Alice  <- Player(name = "1", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Bob    <- Player(name = "2", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Chris  <- Player(name = "3", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Darren <- Player(name = "4", skill = Gaussian(mu = 25, sigma = 25 / 3)) 
+   
+  Team1 <- Team(name = "Team Alice", rank = 1, players = list(Alice))
+  Team2 <- Team(name = "Team Bob", rank = 2, players = list(Bob))
+  Team3 <- Team(name = "Team Chris", rank = 2, players = list(Chris))
+  Team4 <- Team(name = "Team Darren", rank = 4, players = list(Darren))
+
+  teams <- list(Team1, Team2, Team3, Team4)
+  teams <- Trueskill(teams, parameters) 
+  PrintList(teams)
+  
+  players <- GetPlayers(teams)
+  Alice <- players[[1]]
+  print(Alice$skill) 		
+}
+

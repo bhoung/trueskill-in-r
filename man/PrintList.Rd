@@ -1,18 +1,18 @@
 \name{PrintList}
 \alias{PrintList}
-\title{pretty print a list of players}
+\title{pretty print a list ( of players or teams)}
 \description{
-  pretty print a list of players (trivial function...)
+  pretty print a list (of players or teams)
 }
 \usage{
   PrintList(list)
 }
 \arguments{
-  \item{list}{a list of player objects}
+  \item{list}{a list of players or teams}
 }
 \examples{
-  Alice <- Player(1, Gaussian(25, 8), "Alice")
-  Bob <- Player(2, Gaussian(30, 7), "Bob")
+  Alice <- Player("Alice", Gaussian(25, 8))
+  Bob <- Player("Bob", Gaussian(30, 7))
   players <- list(Alice, Bob)
   PrintList(players)
 }

@@ -1,24 +1,23 @@
 \name{Player}
 \alias{Player}
-\title{Player: class to hold the rank, skill and names of players}
+\title{Player: class to hold the skills and names of players}
 \description{
   Reference class to create objects that represent players.
 }
 \section{Usage:}{
   \describe{		
-    Player(rank, skill, name)
+    Player(name, skill)
   }
 }
 \section{Arguments:}{
   \describe{
-    \item{rank}{rank of player in the match outcome}
-    \item{skill}{skill of player represented by Gaussian object e.g. Gaussian(mu = 25, sigma = 25/3)}
     \item{name}{name the player for display purposes}
+    \item{skill}{skill of player represented by Gaussian object e.g. Gaussian(mu = 25, sigma = 25/3)}
   }  
 }
 \examples{
-  Alice <- Player(1, Gaussian(25, 8), "Alice")
-  Bob <- Player(2, Gaussian(30, 7), "Bob")
+  Alice <- Player("Alice", Gaussian(25, 8))
+  Bob <- Player("Bob", Gaussian(30, 7))
   players <- list(Alice, Bob)
   PrintList(players)
 }

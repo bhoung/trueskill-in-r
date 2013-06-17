@@ -1,9 +1,9 @@
-#' function Trueskill is to be applied to tournament data (two player head to head at the moment).  
+#' function Trueskill is to be applied to tournament data (two player head to head).  
 #' @param data a data frame with columns: Player, Opponent, margin
 #' @description Data is required to be in long format with two rows for each match, one with player 1 first and one with player 2 first
 #' Matches should be sorted such that the second copy of the match appears in the second half of the dataframe
 #' The package currently only supports the trueskill algorithm with one player per team
-Trueskill <- function(data, parameters) {
+CompTrueskill <- function(data, parameters) {
 	
   ApplyToRow <- function(row) {
     
@@ -27,11 +27,17 @@ Trueskill <- function(data, parameters) {
       row$sigma2 <- 25 / 3 
     }
   
-    Player1 <- Player$new(rank = rank1, skill = Gaussian$new(mu = row$mu1, sigma = row$sigma1), name = "1")
-    Player2 <- Player$new(rank = rank2, skill = Gaussian$new(mu = row$mu2, sigma = row$sigma2), name = "2")
+    Player1 <- Player(name = "P1", skill = Gaussian(mu = row$mu1, sigma = row$sigma1))
+    Player2 <- Player(name = "P2", skill = Gaussian(mu = row$mu2, sigma = row$sigma2))
     
-    players <- AdjustPlayers(list(Player1, Player2), parameters)  
-             
+    Team1 <- Team(name = "Team1", rank = rank1, players = list(Player1))
+    Team2 <- Team(name = "Team1", rank = rank2, players = list(Player2))
+    
+    teams <- Trueskill(list(Team1, Team2), parameters)
+    players <- GetPlayers(teams)
+    
+    rm(Team1)
+    rm(Team2)
     rm(Player1)
     rm(Player2)
                                           
