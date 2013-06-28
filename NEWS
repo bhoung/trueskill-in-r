@@ -1,9 +1,12 @@
 trueskill 0.2
 =============
 * Update to support multiple players per team  
-  - introduced a team class with list of players and rank
+  - introduced a team class with list of players and rank;
   - removed rank from Player object, moved to Team object
-  - AdjustPlayer has been replaced by Trueskill, and Trueskill has been replaced with CompTrueskill
+  
+* Using S3 method dispatch to run Trueskill on either a list of teams or a dataframe
+   AdjustPlayer and Trueskill has been replaced by S3 Method Trueskill, which will
+   take inputs list of teams or data.frame
    
 * Added test cases also with RUnit
 

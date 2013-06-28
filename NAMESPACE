@@ -7,5 +7,6 @@ export(PrintList)
 export(PrintPlayers)
 export(GetPlayers)
 export(Trueskill)
-export(CompTrueskill)
+export(Trueskill.data.frame)
+export(Trueskill.list)
 

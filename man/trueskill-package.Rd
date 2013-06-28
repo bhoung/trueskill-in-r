@@ -21,6 +21,7 @@
   Acknowledgements to Doug Zongker [2] and Heungsub Lee [3] for their python implementations 
   of the algorithm and for the liberal reuse of Doug's code comments.                
 
+  Html documentation is at http://www.bhoung.com/trueskill/
 }
 \details{
   \tabular{ll}{
@@ -39,8 +40,7 @@
                                \code{\link{Parameters}}}
     \item{Methods:}{\code{\link{Multiply}}, 
                     \code{\link{Divide}}} 
-    \item{Functions:}{\code{\link{CompTrueskill}}, 
-                      \code{\link{Trueskill}},
+    \item{Functions:}{\code{\link{Trueskill}},
                       \code{\link{DrawMargin}},
                       \code{\link{DrawProbability}},
                       \code{\link{PrintList}}

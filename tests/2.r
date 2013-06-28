@@ -9,12 +9,6 @@
 # INITIAL_EPSILON = DrawMargin(DRAW_PROBABILITY, BETA)
 
 test.examples <- function() {
-  source(paste(dropbox, "trueskill-in-r/R/competition.r", sep = ""))
-  source(paste(dropbox, "trueskill-in-r/R/factorgraph.r", sep = ""))
-  source(paste(dropbox, "trueskill-in-r/R/player.r", sep = ""))
-  source(paste(dropbox, "trueskill-in-r/R/team.r", sep = ""))
-  source(paste(dropbox, "trueskill-in-r/R/init.r", sep = ""))
-  
   Alice  <- Player(name = "Alice",  skill = Gaussian(mu = 25, sigma = 25 / 3))
   Bob    <- Player(name = "Bob",    skill = Gaussian(mu = 25, sigma = 25 / 3))
   Chris  <- Player(name = "Chris",  skill = Gaussian(mu = 25, sigma = 25 / 3))

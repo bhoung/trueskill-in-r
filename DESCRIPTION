@@ -12,7 +12,8 @@ Description:
     URL: https://github.com/bhoung/trueskill-in-r 
     Acknowledgements to Doug Zongker and Heungsub Lee for their python 
     implementations  of the algorithm and for the liberal reuse of 
-    Doug's code comments (@dougz and @sublee on github). 
+    Doug's code comments (@dougz and @sublee on github).
+    Html documentation is available at http://www.bhoung.com/trueskill/
 Version: 0.2
 Author: Brendan Houng <brendan.houng@gmail.com>
 Maintainer: Brendan Houng <brendan.houng@gmail.com>
@@ -24,6 +25,6 @@ Imports:
 Collate:
     'factorgraph.r'
     'init.r'
-    'competition.r'
+    'trueskill.r'
     'player.r'
     'team.r'

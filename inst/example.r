@@ -1,11 +1,24 @@
 #dropbox = "C:/Dropbox/"
 dropbox = "/Users/brendanhoung/Dropbox/"
 
-source(paste(dropbox, "trueskill-in-r/R/competition.r", sep = ""))
+source(paste(dropbox, "trueskill-in-r/R/trueskill.r", sep = ""))
 source(paste(dropbox, "trueskill-in-r/R/factorgraph.r", sep = ""))
 source(paste(dropbox, "trueskill-in-r/R/player.r", sep = ""))
 source(paste(dropbox, "trueskill-in-r/R/team.r", sep = ""))
 source(paste(dropbox, "trueskill-in-r/R/init.r", sep = ""))
+
+
+#setGeneric("Trueskill", function(x, ...) standardGeneric("Trueskill"))
+#setMethod("Trueskill", signature(x = "data.frame"), Trueskill.data.frame(x, ...))
+#setMethod("Trueskill", signature(x = "list"), Trueskill.list(x, ...))
+
+#Trueskill <- function(x, p) UseMethod("Trueskill", x)
+#Trueskill.list <- function(x, p) { Trueskill.list(teams = x, parameters = p) }
+#Trueskill.data.frame <- function(x, p) { Trueskill.data.frame(data = x, parameters = p) }
+
+#Trueskill <- function(data, parameters) UseMethod("Trueskill.data.frame", data , parameters)
+#Trueskill <- function(teams, parameters) UseMethod("Trueskill.list", teams)
+
 
 # Example 1.
 
@@ -22,7 +35,7 @@ teams <- list(Team1, Team2, Team3)
 epsilon <- DrawMargin(draw_probability = 0.1, beta = 25 / 6, num_teams = 3)
 parameters <- Parameters(beta = 25/6, epsilon, 25 / 300)
 
-teams <- Trueskill(teams, parameters)
+new_teams <- Trueskill(teams, parameters)
 
 PrintPlayers(teams)
 
@@ -32,7 +45,9 @@ PrintPlayers(teams)
 # As it is applied to 127 matches, it takes ~40 seconds to run.
 
 # Data format of ausopen2012 is: Player, Opponent, Margin, Round, WRank, LRank
-data("ausopen2012")
+#data("ausopen2012")
+attach(paste(dropbox, "trueskill-in-r/data/ausopen2012.rda", sep =""))
+data <- data$data
 
 # create match_id in order to reshape
 data$match_id <- row.names(data)
@@ -77,16 +92,17 @@ data[!data$Round == "1st Round",][c("mu2","sigma2")] <- c(NA, NA)
 parameters <- Parameters()
 print(parameters)
 
-data <- CompTrueskill(data, parameters)
-# top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
-# top4 <- top4[order(top4$Player,top4$Round),]
+data <- Trueskill(data, parameters)
+ top4 <- subset(data, Player == "Djokovic N." | Player == "Nadal R." | Player == "Federer R." | Player == "Murray A." )
+ top4 <- top4[order(top4$Player,top4$Round),]
 
-# subset(top4, Player == "Djokovic N.")      
+ subset(top4, Player == "Djokovic N.")      
 
-# For a visualisation, load up our favourite package ggplot2...	
-# library(ggplot2)
-# g1 <- ggplot(top4, aes(x = Round, y = mu1, group = Player, colour = Player)) + geom_point(aes(colour=factor(Player))) + geom_line(aes())       
-# g1
+# For a visualisation, load up our favourite package ggplot2...
+
+library(ggplot2)
+g1 <- ggplot(top4, aes(x = Round, y = mu1, group = Player, colour = Player)) + geom_point(aes(colour=factor(Player))) + geom_line(aes())       
+g1
 
 # Without having adjusted the global parameters, Trueskill does not predict match outcomes well,
 # as it appears that facing stiffer opposition (higher skilled players) tends to
