@@ -204,7 +204,7 @@ Trueskill.data.frame <- function(x, parameters) {
         rank1 = 1
         rank2 = 2
       } else {
-        rank2 = 2
+        rank1 = 2
         rank2 = 1
       }
     }
