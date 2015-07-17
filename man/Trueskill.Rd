@@ -1,7 +1,5 @@
 \name{Trueskill}
 \alias{Trueskill}
-\alias{Trueskill.data.frame}
-\alias{Trueskill.list}
 \title{Runs the Trueskill algorithm}
 \description{
   Runs the trueskill algorithm and updates the skills of players within each team.
@@ -67,10 +65,10 @@
   epsilon <- DrawMargin(draw_probability = 0.1, beta = 25 / 6, num_teams = 4)
   parameters <- Parameters(beta = 25/6, epsilon, 25 / 300)
   
-  Alice  <- Player(name = "1", skill = Gaussian(mu = 25, sigma = 25 / 3))
-  Bob    <- Player(name = "2", skill = Gaussian(mu = 25, sigma = 25 / 3))
-  Chris  <- Player(name = "3", skill = Gaussian(mu = 25, sigma = 25 / 3))
-  Darren <- Player(name = "4", skill = Gaussian(mu = 25, sigma = 25 / 3)) 
+  Alice  <- Player(name = "Alice", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Bob    <- Player(name = "Bob", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Chris  <- Player(name = "Chris", skill = Gaussian(mu = 25, sigma = 25 / 3))
+  Darren <- Player(name = "Darren", skill = Gaussian(mu = 25, sigma = 25 / 3)) 
    
   Team1 <- Team(name = "Team Alice", rank = 1, players = list(Alice))
   Team2 <- Team(name = "Team Bob", rank = 2, players = list(Bob))
@@ -79,9 +77,11 @@
 
   teams <- list(Team1, Team2, Team3, Team4)
   teams <- Trueskill(teams, parameters) 
-  PrintList(teams)
+  Print(teams)
   
   players <- GetPlayers(teams)
+  Print(players)
+  
   Alice <- players[[1]]
   print(Alice$skill)
   

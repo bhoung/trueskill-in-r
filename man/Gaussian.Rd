@@ -1,8 +1,5 @@
-\name{Gaussian-class}
-\alias{Gaussian-class}
+\name{Gaussian}
 \alias{Gaussian}
-\alias{*,Gaussian,Gaussian-method}
-\alias{/,Gaussian,Gaussian-method}
 \title{Gaussian Class with args (mu, sigma) or (pi, tau)}
 \description{
 Reference Class to create objects that represent normal distributions, which is how players' skills are represented.  

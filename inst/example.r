@@ -37,7 +37,7 @@ parameters <- Parameters(beta = 25/6, epsilon, 25 / 300)
 
 new_teams <- Trueskill(teams, parameters)
 
-PrintPlayers(teams)
+Print(teams)
 
 # Example 2.
 

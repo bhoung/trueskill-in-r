@@ -19,6 +19,6 @@
   Alice <- Player("Alice", Gaussian(25, 8))
   Bob <- Player("Bob", Gaussian(30, 7))
   players <- list(Alice, Bob)
-  PrintList(players)
+  Print(players)
 }
 

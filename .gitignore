@@ -2,3 +2,6 @@
 *~
 *.r~
 *.Rd~
+*.RProj*
+.RHistory
+.Rbuildignore

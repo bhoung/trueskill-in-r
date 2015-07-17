@@ -21,7 +21,7 @@ test.examples <- function() {
   
   teams <- list(Team1, Team2, Team3, Team4)
   
-  PrintPlayers(teams)
+  Print(teams)
   
   epsilon <- DrawMargin(draw_probability = 0.1, beta = 25 / 6, num_teams = 4)
   parameters <- Parameters(beta = 25/6, epsilon, 25 / 300)

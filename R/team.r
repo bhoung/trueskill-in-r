@@ -19,14 +19,23 @@ GetPlayers <- function(teams) {
   return(unlist(Map(GetPlayer, teams))) 
 }
 
-PrintPlayers = function(list) {
-  for(i in 1:length(list)) {
-    print(list[[i]]$players)
+Print = function(list) {
+	
+  class <- class(list[[1]])[[1]]
+  if (class == "Player") {
+    for(i in 1:length(list)) {
+      print(list[[i]])
+    }
+  }
+  if (class == "Team") {
+    for(i in 1:length(list)) {
+      print(list[[i]]$name)
+      players <- list[[i]]$players
+      for(i in 1:length(players)) { 
+        print(players[[i]]) 
+      }
+    }
   }
 }
 
-PrintList = function(list) {
-  for(i in 1:length(list)) {
-    print(list[[i]])
-  }
-}               
+

@@ -25,7 +25,7 @@ test.examples <- function() {
   
   teams <- Trueskill(teams, parameters)
   
-  PrintList(teams)
+  Print(teams)
   
   players <- GetPlayers(teams)
         

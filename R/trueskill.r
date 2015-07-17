@@ -63,7 +63,9 @@ Trueskill.list = function(x, parameters = Parameters()) {
     return(mapply(GenSkill, team$players, "skill")) 
   }
   
-  GenPerfVars <- function(team) { return(mapply(GenVar, team$players, "perf")) }
+  GenPerfVars <- function(team) { 
+    return(mapply(GenVar, team$players, "perf")) 
+  }
   
   # Create each layer of factor nodes.  At the top we have priors
   # initialized to the player's current skill estimate.
@@ -81,10 +83,10 @@ Trueskill.list = function(x, parameters = Parameters()) {
   players <- GetPlayers(teams)
   
   skill_vars <- unlist(mapply(GenSkillVars, teams))
-  team_perf_vars <- mapply(GenPerfVars, teams)
   
   # need to pass nested list of perf vars to GenSumFactor
-  if(length(teams) == length(players)) { team_perf_vars <- Map(list, team_perf_vars) }
+  team_perf_vars <- mapply(GenPerfVars, teams, SIMPLIFY = F)
+  
   perf_vars <- unlist(team_perf_vars)
   
   # create team vars and diff vars for each team 
@@ -239,7 +241,9 @@ Trueskill.data.frame <- function(x, parameters) {
   }
     
   N <- nrow(data) / 2
+  
   for (i in (1:N)) {
+  	  
      row <- ApplyToRow(data[i,])
      
      data[c("mu1", "sigma1", "mu2", "sigma2")][data$Player == row$Player & data$Round == row$Round,] <- row[c("mu1", "sigma1", "mu2", "sigma2")]
