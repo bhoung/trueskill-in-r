@@ -1,5 +1,5 @@
 DrawProbability <- function(epsilon = 0.7404666, beta = 25 / 6, num_teams = 2) {
-  return(2 * pnorm(epsilon / sqrt(num_teams)) * beta - 1)
+  return(2 * pnorm(epsilon /(sqrt(total_players) * beta)) - 1)
 }
 
 DrawMargin <- function(draw_probability = 0.10, beta = 25 / 6, num_teams = 2) {
